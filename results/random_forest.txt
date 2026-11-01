@@ -1,0 +1,12 @@
+
+Validační data
+Model                       MAE           RMSE          CRPS          Pokrytí 90 %  
+Baseline (průměr)           0.304         0.388         0.304         –             
+Random Forest               0.312         0.391         0.312         –             
+Random Forest + nejistota   0.312         0.391         0.202         0.778         
+
+Testovací data
+Model                       MAE           RMSE          CRPS          Pokrytí 90 %  
+Baseline (průměr)           0.313         0.412         0.313         –             
+Random Forest               0.321         0.418         0.321         –             
+Random Forest + nejistota   0.321         0.418         0.211         0.770         
