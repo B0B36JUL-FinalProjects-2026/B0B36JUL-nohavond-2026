@@ -4,10 +4,11 @@ using Random
 
 const SEED = 42
 const K = 10
+const INTERVAL = 0.95
 const MODELS_DIR = normpath(joinpath(@__DIR__, "..", "models"))
 const FIGURES_DIR = normpath(joinpath(@__DIR__, "..", "figures"))
 const RESULTS_DIR = normpath(joinpath(@__DIR__, "..", "results"))
-const METRICS = [MAE(), RMSE(), CRPS(), Coverage(0.9)]
+const METRICS = [MAE(), RMSE(), CRPS(), Coverage(INTERVAL)]
 
 function prepare_data(; k = K)
     df = load_catalog()
