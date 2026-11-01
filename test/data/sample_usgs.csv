@@ -1,0 +1,9 @@
+time,latitude,longitude,depth,mag,magType,nst,gap,dmin,rms,net,id,updated,place,type,horizontalError,depthError,magError,magNst,status,locationSource,magSource
+2020-05-01T10:00:00.000Z,35.5,140.2,40.1,5.5,mww,,30,1.2,0.8,us,test_a,2020-06-01T00:00:00.000Z,"sample event A, Japan",earthquake,5.1,1.9,0.06,30,reviewed,us,us
+2011-03-11T05:46:24.120Z,38.297,142.373,29.0,9.1,mww,,9.5,2.1,1.1,us,test_b,2020-06-01T00:00:00.000Z,"sample event B, Japan",earthquake,6.3,1.8,0.04,40,reviewed,us,us
+2015-01-01T00:00:00.000Z,36.0,141.0,10.0,4.6,mb,,80,1.5,0.9,us,test_c,2020-06-01T00:00:00.000Z,"sample event C, Japan",earthquake,7.0,2.0,0.1,20,reviewed,us,us
+2016-04-15T16:25:06.220Z,32.79,130.75,10.0,5.0,mww,,40,0.4,1.0,us,test_d,2020-06-01T00:00:00.000Z,"sample event D, Japan",earthquake,4.0,1.7,0.05,25,reviewed,us,us
+2018-01-01T00:00:00.000Z,10.0,139.0,30.0,6.0,mww,,50,3.0,1.0,us,test_e,2020-06-01T00:00:00.000Z,"sample event E, outside",earthquake,8.0,2.0,0.05,25,reviewed,us,us
+2020-05-01T10:00:00.000Z,35.5,140.2,40.1,5.5,mww,,30,1.2,0.8,us,test_a,2020-06-01T00:00:00.000Z,"sample event A, Japan",earthquake,5.1,1.9,0.06,30,reviewed,us,us
+2019-06-01T00:00:00.000Z,34.0,135.0,1.0,5.2,ml,,60,0.5,0.7,us,test_g,2020-06-01T00:00:00.000Z,"sample event G, Japan",quarry blast,3.0,1.0,0.2,10,reviewed,us,us
+2017-07-01T00:00:00.000Z,37.0,141.5,,5.8,mww,,45,1.0,0.9,us,test_h,2020-06-01T00:00:00.000Z,"sample event H, Japan",earthquake,5.0,,0.05,25,reviewed,us,us
