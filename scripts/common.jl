@@ -4,7 +4,7 @@ using Random
 
 const SEED = 42
 const K = 10
-const INTERVAL = 0.95
+const INTERVAL = 0.9
 const MODELS_DIR = normpath(joinpath(@__DIR__, "..", "models"))
 const FIGURES_DIR = normpath(joinpath(@__DIR__, "..", "figures"))
 const RESULTS_DIR = normpath(joinpath(@__DIR__, "..", "results"))

@@ -6,8 +6,8 @@ Random.seed!(SEED)
 
 train, val, test = prepare_data()
 
-forest_point = RandomForest()
-forest_samples = RandomForest(head = SampleHead())
+forest_point = RandomForest(n_trees = 50)
+forest_samples = RandomForest(head = SampleHead(), n_trees = 50)
 
 models = [
     "Baseline (průměr)" => MeanBaseline(),
