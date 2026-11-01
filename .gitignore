@@ -10,7 +10,7 @@
 # They contain absolute paths specific to the host computer, and so should not be committed
 deps/deps.jl
 deps/build.log
-deps/downloads/
+deps/downloads
 deps/usr/
 deps/src/
 
@@ -31,3 +31,4 @@ JuliaLocalPreferences.toml
 
 # Conda environment and metadata created in the project directory by the CondaPkg package
 .CondaPkg/
+# 
