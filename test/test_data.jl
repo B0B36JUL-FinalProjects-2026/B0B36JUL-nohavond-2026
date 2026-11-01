@@ -39,4 +39,15 @@ const SAMPLE_CATALOG = joinpath(@__DIR__, "data", "sample_usgs.csv")
     @testset "chybějící soubor" begin
         @test_throws ErrorException load_catalog("neexistujici_soubor.csv")
     end
+
+    @testset "Split" begin
+    df = load_catalog(SAMPLE_CATALOG; min_magnitude = 4.5)
+    s = chronological_split(df; train = 0.5, val = 0.25)
+    @test size.((s.train, s.val, s.test), 1) == (2, 1, 1)
+    @test maximum(s.train.time) < minimum(s.val.time) < minimum(s.test.time)
+    @test_throws ArgumentError chronological_split(df; train = 0.9, val = 0.2)
+    end
+
+
+
 end
