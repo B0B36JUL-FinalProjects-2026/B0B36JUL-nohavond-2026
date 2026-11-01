@@ -3,14 +3,17 @@ abstract type AbstractMetric end
 struct MAE <: AbstractMetric end
 struct RMSE <: AbstractMetric end
 struct CRPS <: AbstractMetric end
+struct NLL <: AbstractMetric end
 struct Coverage <: AbstractMetric
     level::Float64
 end
+
 Coverage() = Coverage(0.9)
 
 Base.show(io::IO, ::MAE) = print(io, "MAE")
 Base.show(io::IO, ::RMSE) = print(io, "RMSE")
 Base.show(io::IO, ::CRPS) = print(io, "CRPS")
+Base.show(io::IO, ::NLL) = print(io, "NLL")
 Base.show(io::IO, m::Coverage) = print(io, "Pokrytí ", round(Int, 100 * m.level), " %")
 
 """
@@ -35,9 +38,18 @@ function evaluate(::CRPS, p::SamplePrediction, y::AbstractVector)
     return total / length(y)
 end
 
+function evaluate(::CRPS, p::GaussianPrediction, y::AbstractVector)
+    z = (y .- p.μ) ./ p.σ
+    N = Normal()
+    return mean(p.σ .* (z .* (2 .* cdf.(N, z) .- 1) .+ 2 .* pdf.(N, z) .- 1 / sqrt(π)))
+end
+
+evaluate(::NLL, p::GaussianPrediction, y::AbstractVector) = -mean(logpdf.(Normal.(p.μ, p.σ), y))
+evaluate(::NLL, ::Union{PointPrediction,SamplePrediction}, ::AbstractVector) = missing
+
 evaluate(::Coverage, ::PointPrediction, ::AbstractVector) = missing
 
-function evaluate(m::Coverage, p::SamplePrediction, y::AbstractVector)
+function evaluate(m::Coverage, p::ProbabilisticPrediction, y::AbstractVector)
     lower, upper = interval(p, m.level)
     return mean(lower .<= y .<= upper)
 end

@@ -1,0 +1,10 @@
+
+Validační data
+Model                       MAE           RMSE          CRPS          NLL           Pokrytí 90 %  
+Baseline (průměr)           0.304         0.388         0.304         –             –             
+Baseline (rozdělení)        0.302         0.387         0.196         –             0.966         
+
+Testovací data
+Model                       MAE           RMSE          CRPS          NLL           Pokrytí 90 %  
+Baseline (průměr)           0.313         0.412         0.313         –             –             
+Baseline (rozdělení)        0.312         0.411         0.203         –             0.964         

@@ -13,6 +13,7 @@ abstract type AbstractHead end
 
 struct PointHead <: AbstractHead end
 struct SampleHead <: AbstractHead end
+struct GaussianHead <: AbstractHead end
 
 
 function fit! end

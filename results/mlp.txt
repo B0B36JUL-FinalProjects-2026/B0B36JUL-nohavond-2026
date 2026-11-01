@@ -1,0 +1,10 @@
+
+Validační data
+Model                       MAE           RMSE          CRPS          NLL           Pokrytí 90 %  
+MLP                         0.302         0.395         0.302         –             –             
+MLP + nejistota             0.307         0.395         0.216         0.529         0.935         
+
+Testovací data
+Model                       MAE           RMSE          CRPS          NLL           Pokrytí 90 %  
+MLP                         0.311         0.416         0.311         –             –             
+MLP + nejistota             0.314         0.415         0.222         0.569         0.935         
