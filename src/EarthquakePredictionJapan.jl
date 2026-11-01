@@ -15,7 +15,7 @@ export AbstractPrediction, PointPrediction, SamplePrediction, point, interval
 export AbstractMetric, MAE, RMSE, CRPS, Coverage, evaluate
 
 export AbstractQuakeModel, AbstractHead, PointHead, SampleHead, fit!, predict
-export MeanBaseline
+export MeanBaseline, RandomForest
 
 include("data/load.jl")
 include("data/split.jl")
@@ -27,6 +27,6 @@ include("metrics.jl")
 
 include("models/interface.jl")
 include("models/baseline.jl")
-# include("models/forest/forest.jl")
+include("models/forest.jl")
 
 end
