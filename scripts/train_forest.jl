@@ -17,7 +17,6 @@ models = [
 ]
 
 for (name, model) in models
-    println("Trénuji: $name")
     fit!(model, train)
 end
 
