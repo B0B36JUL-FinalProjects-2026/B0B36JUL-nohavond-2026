@@ -6,10 +6,14 @@ Random.seed!(SEED)
 
 train, val, test = prepare_data()
 
+forest_point = RandomForest()
+forest_samples = RandomForest(head = SampleHead())
+
 models = [
     "Baseline (průměr)" => MeanBaseline(),
-    "Random Forest" => RandomForest(n_trees = 200),
-    "Random Forest + nejistota" => RandomForest(head = SampleHead(), n_trees = 200),
+    "Baseline (rozdělení)" => MeanBaseline(head = SampleHead()),
+    "Random Forest" => forest_point,
+    "Random Forest + nejistota" => forest_samples,
 ]
 
 for (name, model) in models
@@ -21,21 +25,21 @@ save_results(models, val, test, "random_forest")
 
 mkpath(MODELS_DIR)
 model_file = joinpath(MODELS_DIR, "random_forest.jld2")
-jldsave(model_file; point_model = models[2].second, sample_model = models[3].second, k = K)
+jldsave(model_file; point_model = forest_point, sample_model = forest_samples, k = K)
 
-point_pred = predict(models[2].second, test)
-sample_pred = predict(models[3].second, test)
+point_pred = predict(forest_point, test)
+sample_pred = predict(forest_samples, test)
 lower, upper = interval(sample_pred, 0.9)
 
 fig = Figure(size = (1100, 450))
 
 ax1 = Axis(fig[1, 1]; title = "Random Forest: testovací data",
-    xlabel = "Skutečné magnitude", ylabel = "Predikované magnitude", aspect = 1)
+    xlabel = "Skutečné magnitudo", ylabel = "Predikované magnitudo", aspect = 1)
 scatter!(ax1, test.y, point(point_pred); markersize = 4, color = (:steelblue, 0.5))
 ablines!(ax1, 0, 1; color = :black, linestyle = :dash)
 
 ax2 = Axis(fig[1, 2]; title = "Predikce s 90% intervalem (posledních 200 událostí)",
-    xlabel = "Pořadí události v testu", ylabel = "Magnitude")
+    xlabel = "Pořadí události v testu", ylabel = "Magnitudo")
 idx = max(1, length(test) - 199):length(test)
 band!(ax2, idx, lower[idx], upper[idx]; color = (:steelblue, 0.25), label = "90% interval")
 lines!(ax2, idx, point(sample_pred)[idx]; color = :steelblue, label = "predikce")
