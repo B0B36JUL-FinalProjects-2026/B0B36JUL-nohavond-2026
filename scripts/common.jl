@@ -12,9 +12,9 @@ const RESULTS_DIR = normpath(joinpath(@__DIR__, "..", "results"))
 const METRICS = [MAE(), RMSE(), CRPS(), NLL(), Coverage(INTERVAL)]
 
 function prepare_data(; k = K)
-    df = load_catalog()
-    parts = chronological_split(df)
-    train, val, test = make_windows.((parts.train, parts.val, parts.test); k)
+    windows = make_windows(load_catalog(); k)
+    parts = chronological_split(windows)
+    train, val, test = parts.train, parts.val, parts.test
     println("Okna: train $(length(train)), val $(length(val)), test $(length(test))")
     return train, val, test
 end
@@ -43,11 +43,18 @@ function save_results(models, val, test, run_name)
     mkpath(RESULTS_DIR)
     open(report, joinpath(RESULTS_DIR, "$run_name.txt"), "w")
     jldsave(joinpath(RESULTS_DIR, "$run_name.jld2");
-        val_predictions = Dict(val_predictions), test_predictions = Dict(test_predictions), val, test)
+        names = first.(models),
+        val_predictions = Dict(val_predictions), test_predictions = Dict(test_predictions),
+        val_y = val.y, test_y = test.y)
 end
+
+# Neuronové sítě se ukládají jen jako Flux.state a parametry škálování
+# (viz model_state), ostatní modely celé.
+saved_form(m::NetworkModel) = model_state(m)
+saved_form(m::AbstractQuakeModel) = m
 
 function save_models(run_name; models...)
     mkpath(MODELS_DIR)
     file = joinpath(MODELS_DIR, "$run_name.jld2")
-    jldsave(file; k = K, models...)
+    jldsave(file; k = K, (name => saved_form(m) for (name, m) in models)...)
 end

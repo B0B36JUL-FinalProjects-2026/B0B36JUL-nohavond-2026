@@ -19,11 +19,12 @@ export PointPrediction, SamplePrediction, GaussianPrediction, point, interval
 export AbstractMetric, MAE, RMSE, CRPS, NLL, Coverage, evaluate
 
 export AbstractQuakeModel, AbstractHead, PointHead, SampleHead, GaussianHead, fit!, predict
+export NetworkState, model_state, load_state!
 export MeanBaseline, RandomForest, NetworkModel, MLP, LSTMModel, TemporalAttention
 
 include("data/load.jl")
-include("data/split.jl")
 include("data/windows.jl")
+include("data/split.jl")
 include("data/scaling.jl")
 
 include("predictions.jl")

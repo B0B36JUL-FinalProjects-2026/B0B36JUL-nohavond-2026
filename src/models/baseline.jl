@@ -14,7 +14,7 @@ end
 MeanBaseline(; head::AbstractHead = PointHead(), n_samples::Integer = 200) =
     MeanBaseline(head, n_samples, NaN, Float64[])
 
-function fit!(m::MeanBaseline, train::WindowedData)
+function fit!(m::MeanBaseline, train::WindowedData; val::Union{Nothing,WindowedData} = nothing)
     m.μ = mean(train.y)
     m.quantiles = quantile(train.y, (1:m.n_samples) ./ (m.n_samples + 1))
     return m

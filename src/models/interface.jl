@@ -1,7 +1,8 @@
 """
 Společný nadtyp všech modelů. Každý model implementuje:
 
-- `fit!(model, train::WindowedData)` – natrénuje model a vrátí ho,
+- `fit!(model, train::WindowedData; val = nothing)` – natrénuje model a vrátí ho
+  (validační data využijí jen modely, které je potřebují, ostatní je ignorují),
 - `predict(model, data::WindowedData)` – vrátí podtyp [`AbstractPrediction`](@ref).
 """
 abstract type AbstractQuakeModel end

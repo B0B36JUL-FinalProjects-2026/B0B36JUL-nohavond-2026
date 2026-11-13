@@ -24,6 +24,6 @@ attention_weights(a::TemporalAttention, h::AbstractArray{<:Real,3}) =
     dropdims(Flux.softmax(a.score(h); dims = 2); dims = 1)
 
 function (a::TemporalAttention)(h::AbstractArray{<:Real,3})
-    w = Flux.softmax(a.score(h); dims = 2)
-    return dropdims(sum(h .* w; dims = 2); dims = 2)
+    w = attention_weights(a, h)
+    return dropdims(sum(h .* reshape(w, 1, size(w)...); dims = 2); dims = 2)
 end

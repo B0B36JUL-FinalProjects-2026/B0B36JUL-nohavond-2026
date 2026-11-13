@@ -8,6 +8,6 @@ using Dates
     include("test_models.jl")
 
     @testset "Aqua" begin
-        Aqua.test_all(EarthquakePredictionJapan; stale_deps = false)
+        Aqua.test_all(EarthquakePredictionJapan)
     end
 end

@@ -30,7 +30,7 @@ end
 # DecisionTree.jl čeká vzorky v řádcích, okna mají vzorky ve sloupcích.
 forest_features(data::WindowedData) = permutedims(flatten_windows(data))
 
-function fit!(m::RandomForest, train::WindowedData)
+function fit!(m::RandomForest, train::WindowedData; val::Union{Nothing,WindowedData} = nothing)
     X = forest_features(train)
     n_subfeatures = max(1, size(X, 2) ÷ 3)
     m.forest = DecisionTree.build_forest(

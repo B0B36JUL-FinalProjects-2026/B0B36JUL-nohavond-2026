@@ -1,22 +1,22 @@
-# Stáhne katalog zemětřesení USGS pro oblast Japonska
+# Stáhne katalog zemětřesení USGS pro oblast Japonska.
+# Spouští se z kořene repozitáře: julia --project=. scripts/download_data.jl
 
 using Downloads
-using Dates
 using CSV
 using DataFrames
+using EarthquakePredictionJapan: JAPAN, default_catalog_path
 
 const API_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query"
 
-# Výřez kolem Japonska
-const MIN_LAT, MAX_LAT = 24, 46
-const MIN_LON, MAX_LON = 122, 148
-
+# Stahuje se se slabší hranicí, než jakou používá load_catalog (> 5.0),
+# aby šlo s hranicí experimentovat bez nového stahování.
 const MIN_MAGNITUDE = 4.5
 
+# Pevné období (celé roky), aby každé stažení dávalo stejná data.
 const FIRST_YEAR = 1990
-const LAST_YEAR = year(today())
+const LAST_YEAR = 2025
 
-const OUTPUT_FILE = joinpath(@__DIR__, "..", "data", "japan_usgs.csv")
+const OUTPUT_FILE = default_catalog_path()
 
 """
     query_url(year)
@@ -28,10 +28,10 @@ function query_url(year::Integer)
         "format" => "csv",
         "starttime" => "$(year)-01-01",
         "endtime" => "$(year + 1)-01-01",
-        "minlatitude" => MIN_LAT,
-        "maxlatitude" => MAX_LAT,
-        "minlongitude" => MIN_LON,
-        "maxlongitude" => MAX_LON,
+        "minlatitude" => JAPAN.min_lat,
+        "maxlatitude" => JAPAN.max_lat,
+        "minlongitude" => JAPAN.min_lon,
+        "maxlongitude" => JAPAN.max_lon,
         "minmagnitude" => MIN_MAGNITUDE,
         "eventtype" => "earthquake",
         "orderby" => "time-asc",
@@ -63,6 +63,7 @@ function main()
 
     mkpath(dirname(OUTPUT_FILE))
     CSV.write(OUTPUT_FILE, df)
+    println("Uloženo $(nrow(df)) událostí do $OUTPUT_FILE")
 
     return df
 end

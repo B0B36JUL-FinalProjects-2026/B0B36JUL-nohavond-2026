@@ -1,5 +1,6 @@
-# Testy nacitani dat na souboru vygenerovanem v Claude.
-# Soubor mam pouze pro testovani!
+# Testy načítání dat na malém ručně sestaveném vzorku katalogu USGS.
+# Vzorek obsahuje i události, které má čištění vyřadit (mimo oblast,
+# jiný typ než zemětřesení, chybějící hodnoty, nízké magnitudo).
 
 const SAMPLE = joinpath(@__DIR__, "data", "sample_usgs.csv")
 
@@ -23,6 +24,12 @@ end
     @test size.((s.train, s.val, s.test), 1) == (2, 1, 1)
     @test maximum(s.train.time) < minimum(s.val.time) < minimum(s.test.time)
     @test_throws ArgumentError chronological_split(df; train = 0.9, val = 0.2)
+
+    w = make_windows(df; k = 1)
+    ws = chronological_split(w; train = 0.34, val = 0.33)
+    @test length.((ws.train, ws.val, ws.test)) == (1, 0, 2)
+    @test vcat(ws.train.y, ws.val.y, ws.test.y) == w.y
+    @test ws.test.X == w.X[:, :, 2:3]
 end
 
 @testset "Windows" begin

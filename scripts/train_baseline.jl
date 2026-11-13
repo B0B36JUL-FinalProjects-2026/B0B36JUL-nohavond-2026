@@ -14,7 +14,7 @@ models = [
 
 for (name, model) in models
     println("Trénuji: $name")
-    fit!(model, train)
+    fit!(model, train; val)
 end
 
 save_results(models, val, test, "baseline")

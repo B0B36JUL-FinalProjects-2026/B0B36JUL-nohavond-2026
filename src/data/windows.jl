@@ -36,6 +36,9 @@ Base.length(w::WindowedData) = length(w.y)
 
 Z chronologicky seřazeného katalogu vytvoří klouzavá okna: z událostí
 `i-k, …, i-1` se predikuje magnitude události `i`.
+
+Volá se nad celým katalogem a okna se dělí až potom funkcí
+[`chronological_split`](@ref).
 """
 function make_windows(df::DataFrame; k::Integer = 10)
     n = nrow(df)

@@ -3,8 +3,8 @@
 """
     GeoBounds(min_lat, max_lat, min_lon, max_lon)
 
-Obdélníková zeměpisná oblast ve stupních.
-Japonsko v datech je vyfiltrované, ale kdybych chtěl experimentovat na jiných datech.
+Obdélníková zeměpisná oblast ve stupních. Stažená data už jsou omezená na
+[`JAPAN`](@ref), jiná oblast umožňuje pracovat i s jinými katalogy.
 """
 struct GeoBounds
     min_lat::Float64
@@ -65,7 +65,8 @@ Vyčistí surovou tabulku z USGS:
 1. ponechá jen události typu `"earthquake"`,
 2. vybere sloupce [`CATALOG_COLUMNS`](@ref) a přejmenuje `mag` na `magnitude`,
 3. odstraní řádky s chybějícími hodnotami a duplicitní `id`,
-4. ponechá jen události s magnitudem ostře větším než `min_magnitude`,
+4. ponechá jen události s magnitudem ostře větším než `min_magnitude`
+   (s výchozí hodnotou se tedy vyřadí i události s magnitudem přesně 5.0),
 5. ponechá jen události uvnitř `bounds`,
 6. převede čas na `DateTime` a seřadí tabulku podle času.
 """
@@ -83,7 +84,7 @@ function clean_catalog(raw::DataFrame; min_magnitude::Real = 5.0, bounds::GeoBou
     filter!(:magnitude => >(min_magnitude), df)
     filter!([:latitude, :longitude] => (lat, lon) -> (lat, lon) in bounds, df)
 
-    # vsechno ve float 
+    # Číselné sloupce sjednotíme na Float64 (CSV.jl může vrátit i Int).
     df.time = parse_usgs_time.(df.time)
     for col in (:latitude, :longitude, :depth, :magnitude)
         df[!, col] = Float64.(df[!, col])
