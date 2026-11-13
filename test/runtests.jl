@@ -5,6 +5,7 @@ using Dates
 
 @testset "EarthquakePredictionJapan" begin
     include("test_data.jl")
+    include("test_models.jl")
 
     @testset "Aqua" begin
         Aqua.test_all(EarthquakePredictionJapan; stale_deps = false)

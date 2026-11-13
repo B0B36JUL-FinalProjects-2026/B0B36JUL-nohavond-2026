@@ -19,7 +19,7 @@ export PointPrediction, SamplePrediction, GaussianPrediction, point, interval
 export AbstractMetric, MAE, RMSE, CRPS, NLL, Coverage, evaluate
 
 export AbstractQuakeModel, AbstractHead, PointHead, SampleHead, GaussianHead, fit!, predict
-export MeanBaseline, RandomForest, MLP
+export MeanBaseline, RandomForest, NetworkModel, MLP, LSTMModel, TemporalAttention
 
 include("data/load.jl")
 include("data/split.jl")
@@ -35,6 +35,9 @@ include("train_flux.jl")
 
 include("models/baseline.jl")
 include("models/forest.jl")
+include("models/network.jl")
 include("models/mlp.jl")
+include("models/attention.jl")
+include("models/lstm.jl")
 
 end
